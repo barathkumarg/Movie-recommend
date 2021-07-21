@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .flex-layout {
+            display: flex;
+            align-items: center;
+        }
+        .center {
+            justify-content: center;
+        }
+        #form {
+            margin: 10px;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #recommended {
+            padding: 10px;
+        }
+        .search {
+            padding: 10px 5px;
+            border: none;
+            outline: none;
+            flex: 90;
+            height: 100%;
+        }
+        .search:focus {
+
+        }
+        .search-btn {
+            border: none;
+            outline: none;
+            display: inline-block;
+            width: 40px;
+            height: 100%;
+            height: -webkit-fill-available;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABD0lEQVRIie2UPW7CQBCFP5IS0gEnoQdyAxAHSQoUUSD+Gm4DIiegoITkAOEMJIQWTDFvwY3xrqFAUZ402rX95r2xvTPwV1EGRsAHsFOsgCFQula8BWyBKCF+gOY14gcJTYAqkFfUgKme7YFGqHg5Vnn7Au9NnG+gGGIw4lx5GmbiDkIMPpVU9eDWxV2FGPwqqeDBfRJ3m0Z8iO2jgGJyvsS4wVprxSPPcb5CDN61vngYvGqdeXBPKGFNFGFHMQkdcTZk6Oom1kSRqqtjP70APGNv6Tq6Gyru0MCaKGlUbCTurvtZTIpYEy2x47vTfsD5s8RNM5mkwY0MF+N/k7sy6bmbjzc0WGAzak7gGL9vHAG+Ol6n6x8u5AAAAABJRU5ErkJggg==");
+            background-size: auto;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .search-btn:hover {
+            background-color: #e5e5e5;
+        }
+        .movies {
+            display: grid;
+            justify-content: start;
+            gap: 10px;
+        }
+        .card {
+            gap: 10px 15px;
+            padding: 10px;
+            justify-content: start;
+            position: relative;
+            background: linear-gradient(45deg, #ccc, #ccc);
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            background-size: 90% 1px;
+            position: relative;
+        }
+        .card img {
+            width: 60px;
+            height: 60px;
+        }
+        .card .heading a{
+            color: dodgerblue;
+            text-decoration: none;
+        }
+        .card .subheading {
+            color: #616161;
+        }
+        .card .heading a:hover {
+            text-decoration: underline;
+        }
+        .notfound {
+            display: none;
+            margin: 10px;
+            background-color: #f7f7f7;
+        }
+        .results {
+            display: grid;
+            justify-content: start;
+            padding: 10px;
+        }
+        .notfound span {
+            padding: 8px 12px;
+            color: #6b6b6b;
+        }
+    </style>
+</head>
+<body>
+
+<!-- <form id="form" method="post">
+    Movie name
+    <input type="text"  id="text"  required />
+    <p id="errorAlert"></p>
+    <br>
+    <textarea value="" id ="successAlert" style="height:150px;width:700px;" onchange="check()"></textarea>
+    <br>
+
+    <p  value="" id="value"></p>
+
+</form> -->
+    <section class="container">
+        <div class="flex-layout">
+            <form id="form" method="POST" action="" class="flex-layout">
+                <input type="text" name="text" class="search" placeholder="Search ..." required="">
+                <button type="submit" class="search-btn"></button>
+            </form>
+        </div>
+
+        <div class="notfound flex-layout center">
+            <span>no results found</span>
+        </div>
+
+        <div id="recommended">
+            <h2>Recommended Movies</h2>
+            <div class="movies">
+
+                <div class="card flex-layout">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAxklEQVRoge2ZwQ0CIRBF3xovtmE/WpM9WcJqGdrGHvEixhhiNIJ8Jv8lm5A5sDwYWBbAGPMJZyAN+swA010k1eyVDkzr18BTORViavHHAKwIQhiRMHMkzIhYRA2LqGERNSyiRiuRPXBtVPdbav8jAGyAA7A0qL/0vmYimS1wjCCS2QGXCCLQLt3+LpKpnW5xlt+MU+sLkeEn+/DLb4gPYss0Kor4FEUNi6hhETUsooZF1PDVmxphRMJtGk9dm/Ebc+8GGDMCN1Ze8rYjfSCSAAAAAElFTkSuQmCC"/>
+                    <div class="card-body">
+                        <h3 class="heading"><a href="#">Heading</a></h3>
+                        <h5 class="subheading">Subtitle/genre/time</h5>
+                        <p>Cast and some movies story some random stuffs some random stuffs</p>
+                    </div>
+                </div>
+
+                <div class="card flex-layout">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAxklEQVRoge2ZwQ0CIRBF3xovtmE/WpM9WcJqGdrGHvEixhhiNIJ8Jv8lm5A5sDwYWBbAGPMJZyAN+swA010k1eyVDkzr18BTORViavHHAKwIQhiRMHMkzIhYRA2LqGERNSyiRiuRPXBtVPdbav8jAGyAA7A0qL/0vmYimS1wjCCS2QGXCCLQLt3+LpKpnW5xlt+MU+sLkeEn+/DLb4gPYss0Kor4FEUNi6hhETUsooZF1PDVmxphRMJtGk9dm/Ebc+8GGDMCN1Ze8rYjfSCSAAAAAElFTkSuQmCC"/>
+                    <div class="card-body">
+                        <h3 class="heading"><a href="#">Heading</a></h3>
+                        <h5 class="subheading">Subtitle/genre/time</h5>
+                        <p>Cast and some movies story some random stuffs some random stuffs</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</body>
+
+
+<script>
+
+    $("#form").submit(function (event) {
+        event.preventDefault();
+    });
+
+
+    $('.search').bind('keyup', function() {
+        $('#form').delay(200).submit();
+
+        $.post({
+            url : '/search',
+            data : JSON.stringify({
+                'name': $('.search').val()
+            }),
+            contentType: "application/json",
+            timeout: 5000,
+    	})
+    	.done(function(data) {
+    		if (data.error) {
+    			$('.notfound').css('display','flex');
+                $('#recommended').hide();
+    		}
+    		else if (!data.error){
+                $('#recommended').show();
+                $('.notfound').css('display','none');
+                let target = document.querySelector('#recommended .movies');
+                target.innerHTML = '';
+                let array = data.result;
+                try{
+                console.log(array);
+                    array.forEach(function(e){
+                        var snippet = `
+                            <div class="card flex-layout">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAxklEQVRoge2ZwQ0CIRBF3xovtmE/WpM9WcJqGdrGHvEixhhiNIJ8Jv8lm5A5sDwYWBbAGPMJZyAN+swA010k1eyVDkzr18BTORViavHHAKwIQhiRMHMkzIhYRA2LqGERNSyiRiuRPXBtVPdbav8jAGyAA7A0qL/0vmYimS1wjCCS2QGXCCLQLt3+LpKpnW5xlt+MU+sLkeEn+/DLb4gPYss0Kor4FEUNi6hhETUsooZF1PDVmxphRMJtGk9dm/Ebc+8GGDMCN1Ze8rYjfSCSAAAAAElFTkSuQmCC"/>
+                                <div class="card-body">
+                                    <h3 class="heading"><a href="/movies?q=${e[0]}">${e[0]}</a></h3>
+                                    <h5 class="subheading">${e[1]}</h5>
+                                    <p>${e[2]}</p>
+                                </div>
+                            </div>
+                        `;
+                        target.innerHTML += snippet;
+                    });
+                }catch {
+                    console.log('rendering json content failed.');
+                }
+    		}
+        });
+    });
+
+    var query = `{{query}}`;
+    if(query){
+        $('.search').val(query).keyup();
+    }
+
+</script>
+
+</html>
+
+<!--
+python side code
+
+# main route
+@app.route('/movies', methods=['GET'])
+def movies():
+    # if url is http://127.0.0.1:8000/movies?q=Petta
+    query = request.args.get('q')
+    return render_template('sample.html', query=query if query else '')
+
+# api
+@app.route('/search', methods=['POST'])
+def search():
+    if request.method == "POST":
+        query = request.get_json()
+        if random.random() > 0.5:
+            return jsonify({
+                'result': [
+                    {'name': 'abc', 'link': '/movies?q=abc', 'sub':'horror / 1.30hr', 'content':'some random stuff some random stuff some random stuff'},
+                    {'name': 'xyz', 'link': '/movies?q=xyz', 'sub':'adventure / 2.30hr', 'content':'some random stuff some random stuff some random stuff'},
+                    {'name': 'pqr', 'link': '/movies?q=pqr', 'sub':'action / 1.40hr', 'content':'some random stuff some random stuff some random stuff some random stuff stuffs'}
+                ],
+                'error':False
+            })
+        else:
+            return jsonify({
+                'error': True
+            })
+
+
+-->
